@@ -66,12 +66,9 @@ sub vergleich # Vergleichsfunktion um zwei Datumszeilen zu vergleichen
 	@ha = split(/\./,$ha[0]);
 	@hb = split(/ /,$b);
 	@hb = split(/\./,$hb[0]);
-	return -1 if timelocal(0,0,12,$ha[0],$ha[1]-1,$ha[2]-1900) <  
-		     timelocal(0,0,12,$hb[0],$hb[1]-1,$hb[2]-1900);
-	return  0 if timelocal(0,0,12,$ha[0],$ha[1]-1,$ha[2]-1900) == 
-		     timelocal(0,0,12,$hb[0],$hb[1]-1,$hb[2]-1900);
-	return  1 if timelocal(0,0,12,$ha[0],$ha[1]-1,$ha[2]-1900) >  
-		     timelocal(0,0,12,$hb[0],$hb[1]-1,$hb[2]-1900);
+	return timelocal(0,0,12,$ha[0],$ha[1]-1,$ha[2]-1900) 
+               <=>
+	       timelocal(0,0,12,$hb[0],$hb[1]-1,$hb[2]-1900);
 }
 ###############
 sub zeitstempel
