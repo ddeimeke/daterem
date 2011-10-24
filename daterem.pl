@@ -4,7 +4,6 @@ use Time::Local;
 
 my ($rday,$rmonth,$ryear);
 my $day = 60*60*24;
-my ($unter,$ober);
 my $easter;
 my @alles;
 
@@ -171,11 +170,7 @@ if (! defined $rmonth) {
 		print wochentag($_),", $_\n";
 	}
 } else {
-	$unter = timelocal(0,0,0,$rday,$rmonth-1,$ryear-1900);
-	$ober  = timelocal(59,59,23,$rday,$rmonth-1,$ryear-1900);
-	foreach (@alles) {
-		if ((zeitstempel($_)>=$unter) && (zeitstempel($_)<=$ober)) {
-			print wochentag($_),", $_\n";
-		}
+	foreach (grep(/$rday\.$rmonth\.$ryear /,@alles)) {
+		print wochentag($_),", $_\n";
 	}
 }
