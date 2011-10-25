@@ -133,6 +133,9 @@ sub readdat
 					$dat1_month ||= $dat2_month;
 					$dat1_year ||= $dat2_year;
 					
+                                        # Add begin-end date to description
+                                        $beschreibung .= " [$zeit]";
+
 					$dat1 = timelocal(0,0,12,$dat1_day,$dat1_month-1,$dat1_year-1900);
 					$dat2 = timelocal(0,0,12,$dat2_day,$dat2_month-1,$dat2_year-1900);
 					while ($dat1 <= $dat2) {
