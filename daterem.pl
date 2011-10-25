@@ -171,6 +171,11 @@ if (! defined $rmonth) {
 	}
 } else {
 	foreach (grep(/$rday\.$rmonth\.$ryear /,@alles)) {
-		print wochentag($_),", $_\n";
+		print wochentag($_),", $_";
+                if ( ( my $year_of_birth ) = $_ =~ /\W(?:geboren|born) (\d{4})/ ) {
+                    my $age = $ryear - $year_of_birth;
+                    print ", Alter: $age Jahre";
+                }
+                print "\n";
 	}
 }
