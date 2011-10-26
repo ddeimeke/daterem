@@ -1,0 +1,50 @@
+# Fixe Termine bekommen die Form tt.mm. oder tt.mm.yyyy
+# Flexible Feiertage werden durch ihren Abstand zu Ostersonntag angegeben.
+# Zeiträume haben einen Bindestrich in der Mitte
+#
+# Feiertage
+-52 Weiberfastnacht
+-48 Rosenmontag
+-46 Aschermittwoch
+ -2 Karfreitag
+  0 Ostersonntag
+  1 Ostermontag
+ 39 Christi Himmelfahrt (Vatertag)
+ 49 Pfingstsonntag
+ 50 Pfingstmontag
+ 60 Fronleichnam
+01.01. Neujahr
+02.01. Berchtoldstag
+06.01. Heilige drei Koenige
+01.05. Tag der Arbeit
+01.08. Nationalfeiertag der Schweiz
+15.08. Mariae Himmelfahrt
+03.10. Tag der deutschen Einheit
+31.10. Reformationstag
+01.11. Allerheiligen
+24.12. Heiligabend
+25.12. 1. Weihnachtsfeiertag
+26.12. 2. Weihnachtsfeiertag
+31.12. Silvester
+# Geburtstage
+# Gedenktage
+14.02. Valentinstag
+14.03. Pi-Day
+04.05. DeimHart 2009
+23.05. Grundgesetz Deutschland 1949
+25.05. Towel Day 2001
+25.05. Geek Pride Day 2006
+25.05. Nerd Pride Day 2006
+25.05. Star Wars Premiere 1977
+25.05. Dirks Logbuch 2005
+16.10. ubuntuusers.de 2004
+20.10. Ubuntu 2004
+# Events
+14.-16.10.2011 Ubucon
+12.-13.11.2011 OpenRheinRuhr
+# Arbeit
+# Urlaub, Zeitraeume, Tagestermine
+01.-05.05.2011 Funktioniert
+25.05.-03.06.2011 Monatsübergreifend funktioniert auch
+20.12.2011-10.01.2012 Jahresübergreifend auch
+# Nicht vergessen
