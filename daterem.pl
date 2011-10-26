@@ -4,7 +4,6 @@ use Time::Local;
 
 my ($rday,$rmonth,$ryear);
 my $day = 60*60*24;
-my ($unter,$ober);
 my $easter;
 my @alles;
 
@@ -66,12 +65,9 @@ sub vergleich # Vergleichsfunktion um zwei Datumszeilen zu vergleichen
 	@ha = split(/\./,$ha[0]);
 	@hb = split(/ /,$b);
 	@hb = split(/\./,$hb[0]);
-	return -1 if timelocal(0,0,12,$ha[0],$ha[1]-1,$ha[2]-1900) <  
-		     timelocal(0,0,12,$hb[0],$hb[1]-1,$hb[2]-1900);
-	return  0 if timelocal(0,0,12,$ha[0],$ha[1]-1,$ha[2]-1900) == 
-		     timelocal(0,0,12,$hb[0],$hb[1]-1,$hb[2]-1900);
-	return  1 if timelocal(0,0,12,$ha[0],$ha[1]-1,$ha[2]-1900) >  
-		     timelocal(0,0,12,$hb[0],$hb[1]-1,$hb[2]-1900);
+	return timelocal(0,0,12,$ha[0],$ha[1]-1,$ha[2]-1900) 
+               <=>
+	       timelocal(0,0,12,$hb[0],$hb[1]-1,$hb[2]-1900);
 }
 ###############
 sub zeitstempel
@@ -137,6 +133,9 @@ sub readdat
 					$dat1_month ||= $dat2_month;
 					$dat1_year ||= $dat2_year;
 					
+                                        # Add begin-end date to description
+                                        $beschreibung .= " [$zeit]";
+
 					$dat1 = timelocal(0,0,12,$dat1_day,$dat1_month-1,$dat1_year-1900);
 					$dat2 = timelocal(0,0,12,$dat2_day,$dat2_month-1,$dat2_year-1900);
 					while ($dat1 <= $dat2) {
@@ -174,11 +173,12 @@ if (! defined $rmonth) {
 		print wochentag($_),", $_\n";
 	}
 } else {
-	$unter = timelocal(0,0,0,$rday,$rmonth-1,$ryear-1900);
-	$ober  = timelocal(59,59,23,$rday,$rmonth-1,$ryear-1900);
-	foreach (@alles) {
-		if ((zeitstempel($_)>=$unter) && (zeitstempel($_)<=$ober)) {
-			print wochentag($_),", $_\n";
-		}
+	foreach (grep(/$rday\.$rmonth\.$ryear /,@alles)) {
+		print wochentag($_),", $_";
+                if ( ( my $year_of_birth ) = $_ =~ /\W(?:geboren|born) (\d{4})/ ) {
+                    my $age = $ryear - $year_of_birth;
+                    print ", Alter: $age Jahre";
+                }
+                print "\n";
 	}
 }
