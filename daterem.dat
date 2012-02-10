@@ -1,51 +1,52 @@
-# Fixe Termine bekommen die Form tt.mm. oder tt.mm.yyyy
-# Flexible Feiertage werden durch ihren Abstand zu Ostersonntag angegeben.
-# Zeiträume haben einen Bindestrich in der Mitte
+# Fixed dates have the form dd.mm. or dd.mm.yyyy
+# variable holidays are entered with there distance (in days) to Easter Sunday
+# Periods have a hyphen in their middle
 #
-# Feiertage
--52 Weiberfastnacht
--48 Rosenmontag
--46 Aschermittwoch
- -2 Karfreitag
-  0 Ostersonntag
-  1 Ostermontag
- 39 Christi Himmelfahrt (Vatertag)
- 49 Pfingstsonntag
- 50 Pfingstmontag
- 60 Fronleichnam
-01.01. Neujahr
+# High days and holidays
+-52 Old Maids' Day
+-48 Carnival Monday
+-46 Ash Wednesday
+ -2 Good Friday
+  0 Easter Sunday
+  1 Easter Monday
+ 39 Ascension Day (Father's Day)
+ 49 Whit Sunday
+ 50 Whit Monday
+ 60 Feast of Corpus Christi
+01.01. New Years Day
 02.01. Berchtoldstag
-06.01. Heilige drei Koenige
-01.05. Tag der Arbeit
-01.08. Nationalfeiertag der Schweiz
-15.08. Mariae Himmelfahrt
-03.10. Tag der deutschen Einheit
-31.10. Reformationstag
-01.11. Allerheiligen
-24.12. Heiligabend
-25.12. 1. Weihnachtsfeiertag
-26.12. 2. Weihnachtsfeiertag
-31.12. Silvester
-# Geburtstage
-25.10. Test-Geburtstag, geboren 1981
-# Gedenktage
-14.02. Valentinstag
+06.01. Twelfth Day
+01.05. Labor Day
+01.08. National Holiday in Switzerland
+15.08. Assumption Day
+03.10. German Unification Day
+31.10. Reformation Day
+31.10. Halloween (All Hallows' Eve)
+01.11. All Hallows
+24.12. Christmas Eve
+25.12. Christmas Day
+26.12. Boxing Day
+31.12. New Year's Eve
+# Birthday dates
+25.10. Test-birthday, born 1981
+# Commemoratioa days
+14.02. Valentine's Day 
 14.03. Pi-Day
-04.05. DeimHart 2009
-23.05. Grundgesetz Deutschland 1949
-25.05. Towel Day 2001
-25.05. Geek Pride Day 2006
-25.05. Nerd Pride Day 2006
-25.05. Star Wars Premiere 1977
-25.05. Dirks Logbuch 2005
-16.10. ubuntuusers.de 2004
-20.10. Ubuntu 2004
+04.05. DeimHart, started 2009
+23.05. German Constitution, year 1949
+25.05. Towel Day, year 2001
+25.05. Geek Pride Day, year 2006
+25.05. Nerd Pride Day, year 2006
+25.05. Star Wars Premiere, year 1977
+25.05. Dirks Logbuch, started 2005
+16.10. ubuntuusers.de, started 2004
+20.10. Ubuntu, started 2004
 # Events
 14.-16.10.2011 Ubucon
 12.-13.11.2011 OpenRheinRuhr
-# Arbeit
-# Urlaub, Zeitraeume, Tagestermine
-01.-05.05.2011 Funktioniert
-25.05.-03.06.2011 Monatsübergreifend funktioniert auch
-20.12.2011-10.01.2012 Jahresübergreifend auch
-# Nicht vergessen
+# Work
+# Vacation, periods
+01.-05.05.2011 Works
+25.05.-03.06.2011 Works over month borders
+20.12.2011-10.01.2012 Works over years as well
+# Don't forget

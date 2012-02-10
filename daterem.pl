@@ -5,7 +5,7 @@ use Time::Local;
 my ($rday,$rmonth,$ryear);
 my $day = 60*60*24;
 my $easter;
-my @alles;
+my @all;
 
 ###########
 sub options
@@ -35,7 +35,7 @@ sub options
 	return ($day,$month,$year);
 }
 ##############
-sub calceaster # Ostern berechnen
+sub calceaster # Calculate easter date
 ##############
 {
 	my $j = $ryear;
@@ -56,9 +56,9 @@ sub calceaster # Ostern berechnen
 
 	return timelocal(0,0,12,$o+1,$n-1,$j-1900);
 }
-#############
-sub vergleich # Vergleichsfunktion um zwei Datumszeilen zu vergleichen
-#############
+###########
+sub compare # Function to compare two date lines
+###########
 {
 	my (@ha,@hb);
 	@ha = split(/ /,$a);
@@ -69,23 +69,23 @@ sub vergleich # Vergleichsfunktion um zwei Datumszeilen zu vergleichen
                <=>
 	       timelocal(0,0,12,$hb[0],$hb[1]-1,$hb[2]-1900);
 }
-###############
-sub zeitstempel
-###############
+#############
+sub timestamp
+#############
 {
-	my $zeile = $_[0];
-	$zeile =~ s/([0-9.]+)\s.*/$1/;
-	my ($day,$month,$year) = split(/\./,$zeile);
+	my $line = $_[0];
+	$line =~ s/([0-9.]+)\s.*/$1/;
+	my ($day,$month,$year) = split(/\./,$line);
 	return timelocal(0,0,12,$day,$month-1,$year-1900);
 }
 #############
-sub wochentag
+sub weekday
 #############
 {
-	my @wochentag = qw(So Mo Di Mi Do Fr Sa);
-	return $wochentag[
+	my @weekday = qw(Su Mo Tu We Th Fr Sa);
+	return $weekday[
 		(localtime(
-			zeitstempel($_[0])
+			timestamp($_[0])
 		))[6]
 	];
 }
@@ -96,14 +96,14 @@ sub add2list
 	my ($dd,$mm,$yyyy,$remark) = @_;
 	$dd = "0" . $dd if (($dd < 10) && (length($dd)<2));
 	$mm = "0" . $mm if (($mm < 10) && (length($mm)<2));
-	push @alles,"$dd.$mm.$yyyy $remark";
+	push @all,"$dd.$mm.$yyyy $remark";
 }
 ###########
 sub readdat
 ###########
 {
-	my $zeit;
-	my $beschreibung;
+	my $time;
+	my $description;
 	my $dat1;
 	my $dat2;
 	my ($dat1_day,$dat1_month,$dat1_year);
@@ -113,20 +113,20 @@ sub readdat
 			or die "\nIrgendetwas stimmt hier nicht!\n\n";
 		while (<DATA>) {
 			chomp;
-			s/^#.*//g; # entfernt Kommentarzeilen
-			s/\s{2,}/ /g; # ersetzt mehrere WS durch ein Leerzeichen
-			s/^\s+//g; # entfernt Whitespace(s) am Zeilenanfang
-			s/\s+$//g; # entfernt Whitespace(s) am Zeilenende
+			s/^#.*//g; # removes commented lines
+			s/\s{2,}/ /g; # replaces multiple white spaces with only one
+			s/^\s+//g; # removes whitespace(s) from beginning of lines
+			s/\s+$//g; # removes whitespace(s) from line ends
 			if (m/^.+$/) {
-				($zeit,$beschreibung) = split(/ /, $_, 2);
-				if ($zeit =~ m/^[-0-9]+$/) { # Osterdaten
-					$zeit = $zeit * $day + $easter;
-					($dat1_day,$dat1_month,$dat1_year) = (localtime($zeit))[3,4,5];
+				($time,$description) = split(/ /, $_, 2);
+				if ($time =~ m/^[-0-9]+$/) { # depending on easter
+					$time = $time * $day + $easter;
+					($dat1_day,$dat1_month,$dat1_year) = (localtime($time))[3,4,5];
 					$dat1_month++;
 					$dat1_year += 1900;
-					add2list($dat1_day,$dat1_month,$dat1_year,$beschreibung);
-				} elsif ($zeit =~ m/.+-.+/) { # Ein Zeitraum
-					($dat1,$dat2) = split(/-/ , $zeit);
+					add2list($dat1_day,$dat1_month,$dat1_year,$description);
+				} elsif ($time =~ m/.+-.+/) { # periods
+					($dat1,$dat2) = split(/-/ , $time);
 					($dat1_day,$dat1_month,$dat1_year) = split(/\./,$dat1);
 					($dat2_day,$dat2_month,$dat2_year) = split(/\./,$dat2);
 					$dat2_year ||= $ryear;
@@ -134,7 +134,7 @@ sub readdat
 					$dat1_year ||= $dat2_year;
 					
                                         # Add begin-end date to description
-                                        $beschreibung .= " [$zeit]";
+                                        $description .= " [$time]";
 
 					$dat1 = timelocal(0,0,12,$dat1_day,$dat1_month-1,$dat1_year-1900);
 					$dat2 = timelocal(0,0,12,$dat2_day,$dat2_month-1,$dat2_year-1900);
@@ -142,14 +142,14 @@ sub readdat
 						($dat1_day,$dat1_month,$dat1_year) = (localtime($dat1))[3,4,5];
 						$dat1_month++;
 						$dat1_year += 1900;
-						add2list($dat1_day,$dat1_month,$dat1_year,$beschreibung);
+						add2list($dat1_day,$dat1_month,$dat1_year,$description);
 						$dat1 += $day;
 					}
 					
-				} else { # Ein einzelnes Datum
-					($dat1_day,$dat1_month,$dat1_year) = split(/\./,$zeit);
+				} else { # a single date
+					($dat1_day,$dat1_month,$dat1_year) = split(/\./,$time);
 					$dat1_year ||= $ryear;
-					add2list($dat1_day,$dat1_month,$dat1_year,$beschreibung);
+					add2list($dat1_day,$dat1_month,$dat1_year,$description);
 				}
 			}
 		}
@@ -158,27 +158,34 @@ sub readdat
 		print "\nNo datafile!\n\n";
 	}
 }
+#############
+sub printline
+#############
+{
+	my ($output) = @_;
+	print weekday($_),", $_";
+	if ( ( my $year_of_birth ) = $_ =~ /\W(?:born|started|year) (\d{4})/ ) {
+		my $age = $ryear - $year_of_birth;
+		print ", age: $age years";
+	}
+	print "\n";
+}
 
 ($rday,$rmonth,$ryear) = options;
 $easter = calceaster;
 readdat;
-@alles = sort vergleich @alles;
+@all = sort compare @all;
 
 if (! defined $rmonth) {
-	foreach (grep(/\.$ryear /,@alles)) {
-		print wochentag($_),", $_\n";
+	foreach (grep(/\.$ryear /,@all)) {
+		printline($_);
 	}
 } elsif (! defined $rday) {
-	foreach (grep(/\.$rmonth\.$ryear /,@alles)) {
-		print wochentag($_),", $_\n";
+	foreach (grep(/\.$rmonth\.$ryear /,@all)) {
+		printline($_);
 	}
 } else {
-	foreach (grep(/$rday\.$rmonth\.$ryear /,@alles)) {
-		print wochentag($_),", $_";
-                if ( ( my $year_of_birth ) = $_ =~ /\W(?:geboren|born) (\d{4})/ ) {
-                    my $age = $ryear - $year_of_birth;
-                    print ", Alter: $age Jahre";
-                }
-                print "\n";
+	foreach (grep(/$rday\.$rmonth\.$ryear /,@all)) {
+		printline($_);
 	}
 }
