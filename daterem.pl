@@ -168,7 +168,8 @@ sub printline
 	print weekday($_),", $_";
 	if ( ( my $year_of_birth ) = $_ =~ /\W(?:born|started|year) (\d{4})/ ) {
 		my $age = $ryear - $year_of_birth;
-		print ", age: $age years";
+		print ", age $age year";
+		print "s" if ($age > 1);
 	}
 	print "\n";
 }
