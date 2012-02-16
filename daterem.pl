@@ -32,6 +32,8 @@ sub options
 		$month++;
 		$year += 1900;
 	}
+	$month = "0" . $month if ($month < 10);
+	$day = "0" . $day if ($day < 10);
 	return ($day,$month,$year);
 }
 ##############
