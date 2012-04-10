@@ -1,9 +1,7 @@
 
 daterem is a little script to help you with daily due dates.
 
-daterem.dat needs to be in the same directory as daterem.pl. The format is pretty simple look into the procided file for examples.
-
-Documentation and discussions can be done on the blog adminstories.de
+daterem.dat needs to be in the directory where you execute daterem.pl. The format is pretty simple look into the provided file for examples.
 
 In case of any questions, mail me dirk@deimeke.net
 
