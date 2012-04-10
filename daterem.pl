@@ -112,7 +112,7 @@ sub readdat
 	my ($dat2_day,$dat2_month,$dat2_year);
 	if (-r 'daterem.dat') {
 		open(DATA,"< daterem.dat") 
-			or die "\nIrgendetwas stimmt hier nicht!\n\n";
+			or die "\ndaterem.dat not found in current directory!\n\n";
 		while (<DATA>) {
 			chomp;
 			s/^#.*//g; # removes commented lines
