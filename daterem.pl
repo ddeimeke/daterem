@@ -32,8 +32,8 @@ sub options
 		$month++;
 		$year += 1900;
 	}
-	$month = "0" . $month if (defined $month) and ($month < 10);
-	$day = "0" . $day if (defined $day) and ($day < 10);
+	$month = "0" . $month if (defined $month) and (length($month) == 1);
+	$day = "0" . $day if (defined $day) and (length($day) == 1);
 	return ($day,$month,$year);
 }
 ##############
