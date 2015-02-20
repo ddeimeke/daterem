@@ -3,5 +3,11 @@ daterem is a little script to help you with daily due dates.
 
 daterem.dat needs to be in the directory where you execute daterem.pl. The format is pretty simple look into the provided file for examples.
 
+Call daterem.pl without any parameters to see the reminders for today, call it with a year to see all reminders for the year, call it with month and year - separated by a dot and you get all the reminders for the specific month and - you might have expected this - call it with day, month and year to see the reminders for the specific date.
+
+```
+Usage: daterem.pl [[[dd.]mm.]yyyy]
+```
+
 In case of any questions, mail me dirk@deimeke.net
 
