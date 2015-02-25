@@ -38,6 +38,7 @@ sub options
 }
 ##############
 sub calceaster # Calculate easter date
+               # https://en.wikipedia.org/wiki/Computus#Anonymous_Gregorian_algorithm
 ##############
 {
 	my $j = $ryear;
