@@ -23,11 +23,16 @@
 31.10. Reformation Day
 31.10. Halloween (All Hallows' Eve)
 01.11. All Hallows
-24.12. Christmas Eve
+# Add a ", countdown" if you want to see the 
+# remaining days till the event
+24.12. Christmas Eve, countdown
 25.12. Christmas Day
 26.12. Boxing Day
 31.12. New Year's Eve
 # Birthday dates
+# add a "born" or "dead" or "started" or "year" 
+# followed by a 4 digit year
+# to see the age of the event
 25.10. Test-birthday, born 1981
 # Commemoratioa days
 14.02. Valentine's Day 
@@ -44,7 +49,7 @@
 # Events
 # Work
 # Vacation, periods
-01.-05.05.2012 Works
-25.05.-03.06.2012 Works over month borders
-20.12.2012-10.01.2013 Works over years as well
+01.-05.05.2015 Works
+25.05.-03.06.2015 Works over month borders
+20.12.2015-10.01.2016 Works over years as well
 # Don't forget
