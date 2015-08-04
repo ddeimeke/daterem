@@ -137,8 +137,12 @@ def printline( line ):
     prt =  time.strftime("%a, %d.%m.%Y", time.localtime(to_epoch(date))) + ", " + text
     match = re.match(r".*(born|dead|started|year) (\d{4})",text)
     if match:
+        if match.group(1) in ('born','year'):
+            prt += ", age "
+        elif match.group(1) in ('dead', 'started'):
+            prt += ", ago: "
         age = int(ryear) - int(match.group(2))
-        prt += ", age " + str(age) + " year"
+        prt += str(age) + " year"
         if age>1:
             prt += "s"
     if re.search(", countdown",line):
@@ -149,9 +153,13 @@ def printline( line ):
             countdown = " tomorrow"
         elif duration > 1:
             countdown = " in %s days" % duration
+        else:
+            countdown = ""
+            prt = ""
         prt = re.sub(' countdown,', countdown, prt)
         prt = re.sub(' countdown', countdown, prt)
-    print(prt)
+    if prt <> "":
+        print(prt)
 
 
 rday, rmonth, ryear = options()
