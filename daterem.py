@@ -198,4 +198,3 @@ for line in alldates:
         printline(line)
     elif re.search(", countdown",line):
         printline(line)
-
