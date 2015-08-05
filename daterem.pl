@@ -7,6 +7,7 @@ my $day = 60*60*24;
 my $easter;
 my @all;
 
+
 ###########
 sub options
 ###########
@@ -36,6 +37,8 @@ sub options
 	$day = "0" . $day if (defined $day) and (length($day) == 1);
 	return ($day,$month,$year);
 }
+
+
 ##############
 sub calceaster # Calculate easter date
                # https://en.wikipedia.org/wiki/Computus#Anonymous_Gregorian_algorithm
@@ -59,6 +62,8 @@ sub calceaster # Calculate easter date
 
 	return timelocal(0,0,12,$o+1,$n-1,$j-1900);
 }
+
+
 ###########
 sub compare # Function to compare two date lines
 ###########
@@ -72,6 +77,8 @@ sub compare # Function to compare two date lines
                <=>
 	       timelocal(0,0,12,$hb[0],$hb[1]-1,$hb[2]-1900);
 }
+
+
 #############
 sub timestamp
 #############
@@ -81,6 +88,8 @@ sub timestamp
 	my ($day,$month,$year) = split(/\./,$line);
 	return timelocal(0,0,12,$day,$month-1,$year-1900);
 }
+
+
 #############
 sub weekday
 #############
@@ -92,6 +101,8 @@ sub weekday
 		))[6]
 	];
 }
+
+
 ############
 sub add2list
 ############
@@ -101,6 +112,8 @@ sub add2list
 	$mm = "0" . $mm if (($mm < 10) && (length($mm)<2));
 	push @all,"$dd.$mm.$yyyy $remark";
 }
+
+
 ###########
 sub readdat
 ###########
@@ -161,6 +174,8 @@ sub readdat
 		print "\nNo datafile!\n\n";
 	}
 }
+
+
 #############
 sub printline
 #############
@@ -175,10 +190,12 @@ sub printline
 	print "\n";
 }
 
+
 ($rday,$rmonth,$ryear) = options;
 $easter = calceaster;
 readdat;
 @all = sort compare @all;
+
 
 if (! defined $rmonth) {
 	foreach (grep(/\.$ryear /,@all)) {
