@@ -3,52 +3,42 @@ import sys
 import re
 import time
 
-global rday
-global rmonth
-global ryear
-global day
-global easter
-global alldates
-
-alldates = []
-day = 60 * 60 * 24
-
 
 ##############
 def options():
 ##############
-    if len(sys.argv)>=3:
+    if len(sys.argv) >= 3:
         print("\nUsage: %s [[[dd.]mm.]yyyy]\n\n" % sys.argv[0])
         sys.exit(1)
 
-    if len(sys.argv)==2:
-        list = sys.argv[1].split(".")
+    if len(sys.argv) == 2:
+        optionlist = sys.argv[1].split(".")
 
-        if len(list)==1:
-            year  = list[0]
-            month = ''
-            day   = ''
-        elif len(list)==2:
-            year  = list[1]
-            month = list[0]
-            day   = ''
+        if len(optionlist) == 1:
+            oyear  = optionlist[0]
+            omonth = ''
+            oday   = ''
+        elif len(optionlist) == 2:
+            oyear  = optionlist[1]
+            omonth = optionlist[0]
+            oday   = ''
         else:
-            year  = list[2]
-            month = list[1]
-            day   = list[0]
+            oyear  = optionlist[2]
+            omonth = optionlist[1]
+            oday   = optionlist[0]
 
-        if len(day) == 1:
-            day   = '0' + day
+        if len(oday) == 1:
+            oday   = '0' + oday
 
-        if len(month) == 1:
-            month = '0' + month 
+        if len(omonth) == 1:
+            omonth = '0' + omonth
 
     else:
-        day   = time.strftime("%d")
-        month = time.strftime("%m")
-        year  = time.strftime("%Y")
+        oday   = time.strftime("%d")
+        omonth = time.strftime("%m")
+        oyear  = time.strftime("%Y")
 
-    return (day, month, year)
+    return (oday, omonth, oyear)
 
 
 ###################
@@ -67,7 +57,7 @@ def to_date(epoch):
 #################
 def calceaster(): # Calculate easter date
 #################
-# https://en.wikipedia.org/wiki/Computus#Anonymous_Gregorian_algorithm 
+# https://en.wikipedia.org/wiki/Computus#Anonymous_Gregorian_algorithm
     j = int(ryear)
     a = j % 19
     b = int(j / 100)
@@ -95,15 +85,15 @@ def readdat():
         line = line.strip()
 
         if not re.match("#", line):
-            line              = re.sub(r'\s{2,}',' ',line)
-            time, description = line.split(" ",1)
+            line               = re.sub(r'\s{2,}', ' ', line)
+            ltime, description = line.split(" ", 1)
 
-            if re.match("^[-0-9]+$", time): # Datum abhaengig von Ostern
-                time = int(time) * day + easter
-                alldates.append("%s %s" % (to_date(time), description))
-            elif re.match(".+-.+", time):   # Zeitraeume
-                description = description + " [" + time + "]"
-                dat1, dat2  = time.split("-")
+            if re.match("^[-0-9]+$", ltime): # Datum abhaengig von Ostern
+                ltime = int(ltime) * day + easter
+                alldates.append("%s %s" % (to_date(ltime), description))
+            elif re.match(".+-.+", ltime):   # Zeitraeume
+                description = description + " [" + ltime + "]"
+                dat1, dat2  = ltime.split("-")
                 dat1list    = dat1.split(".")
                 dat2list    = dat2.split(".")
 
@@ -114,7 +104,7 @@ def readdat():
                     dat2list.append('')
 
                 if dat2list[2] == '':
-                    dat2list[2]=ryear
+                    dat2list[2] = ryear
 
                 if dat1list[2] == '':
                     dat1list[2] = dat2list[2]
@@ -130,22 +120,22 @@ def readdat():
                     dat1 = dat1 + day
 
             else:                           # Ein einzelnes Datum
-                timelist = time.split(".")
-                timelist.append('')
+                ltimelist = ltime.split(".")
+                ltimelist.append('')
 
-                if timelist[2] == '':
-                    timelist[2] = ryear
+                if ltimelist[2] == '':
+                    ltimelist[2] = ryear
 
-                alldates.append("%s.%s.%s %s" % (timelist[0], timelist[1], timelist[2], description))
+                alldates.append("%s.%s.%s %s" % (ltimelist[0], ltimelist[1], ltimelist[2], description))
     f.close()
 
 
 ######################
 def printline( line ):
 ######################
-    date, text = line.split(" ",1)
+    date, text = line.split(" ", 1)
     prt        = time.strftime("%a, %d.%m.%Y", time.localtime(to_epoch(date))) + ", " + text
-    match      = re.match(r".*(born|dead|started|year) (\d{4})",text)
+    match      = re.match(r".*(born|dead|started|year) (\d{4})", text)
 
     if match:
 
@@ -157,10 +147,10 @@ def printline( line ):
         age  = int(ryear) - int(match.group(2))
         prt += str(age) + " year"
 
-        if age>1:
+        if age > 1:
             prt += "s"
 
-    if re.search(", countdown",line):
+    if re.search(", countdown", line):
         duration = int((to_epoch(date) - to_epoch(time.strftime("%d.%m.%Y"))) / day + 0.5)
 
         if duration == 0:
@@ -180,21 +170,36 @@ def printline( line ):
         print(prt)
 
 
-rday, rmonth, ryear = options()
-easter = calceaster()
-readdat()
-alldates = sorted(alldates,key=to_epoch)
+###########
+def main():
+###########
+    global rday     # Reference Day (if any)
+    global rmonth   # Reference Month (if any)
+    global ryear    # Reference Year
+    global day      # One day in seconds
+    global easter   # Easter date - 12:00 - in seconds since the Epoch
+    global alldates # List containing all dates
 
-if rmonth == '':
-    search = '\.%s ' % ryear
-elif rday == '':
-    search = '\.%s\.%s ' % (rmonth, ryear)
-else:
-    search= '%s\.%s\.%s ' % (rday, rmonth, ryear)
+    alldates = []
+    day = 60 * 60 * 24
+
+    rday, rmonth, ryear = options()
+    easter = calceaster()
+    readdat()
+    alldates = sorted(alldates, key=to_epoch)
+
+    if rmonth == '':
+        search = '\.%s ' % ryear
+    elif rday == '':
+        search = '\.%s\.%s ' % (rmonth, ryear)
+    else:
+        search = '%s\.%s\.%s ' % (rday, rmonth, ryear)
 
 
-for line in alldates:
-    if re.search(search,line):
-        printline(line)
-    elif re.search(", countdown",line):
-        printline(line)
+    for line in alldates:
+        if re.search(search, line):
+            printline(line)
+        elif re.search(", countdown", line):
+            printline(line)
+
+main()
