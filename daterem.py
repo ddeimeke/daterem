@@ -1,8 +1,8 @@
 #!/usr/bin/env python
+
 import sys
 import re
 import time
-
 
 ##############
 def options():
@@ -11,17 +11,15 @@ def options():
         print("\nUsage: %s [[[dd.]mm.]yyyy]\n\n" % sys.argv[0])
         sys.exit(1)
 
+    oyear, omonth, oday = ["", "", ""]
     if len(sys.argv) == 2:
         optionlist = sys.argv[1].split(".")
 
         if len(optionlist) == 1:
             oyear  = optionlist[0]
-            omonth = ''
-            oday   = ''
         elif len(optionlist) == 2:
             oyear  = optionlist[1]
             omonth = optionlist[0]
-            oday   = ''
         else:
             oyear  = optionlist[2]
             omonth = optionlist[1]
@@ -34,9 +32,7 @@ def options():
             omonth = '0' + omonth
 
     else:
-        oday   = time.strftime("%d")
-        omonth = time.strftime("%m")
-        oyear  = time.strftime("%Y")
+        oday, omonth, oyear = map(time.strftime, ["%d","%m","%Y"])
 
     return (oday, omonth, oyear)
 
@@ -44,7 +40,7 @@ def options():
 ###################
 def to_epoch(date):
 ###################
-    date = date.split(" ")
+    date = date.split()
     return time.mktime(time.strptime(date[0] + " 12", "%d.%m.%Y %H"))
 
 
@@ -103,13 +99,13 @@ def readdat():
                 if len(dat2list) == 2:
                     dat2list.append('')
 
-                if dat2list[2] == '':
+                if not dat2list[2]:
                     dat2list[2] = ryear
 
-                if dat1list[2] == '':
+                if not dat1list[2]:
                     dat1list[2] = dat2list[2]
 
-                    if dat1list[1] == '':
+                    if not dat1list[1]:
                         dat1list[1] = dat2list[1]
 
                 dat1 = to_epoch(dat1list[0] + "." + dat1list[1] + "." +  dat1list[2])
@@ -131,7 +127,7 @@ def readdat():
 
 
 ######################
-def printline( line ):
+def printline(line):
 ######################
     date, text = line.split(" ", 1)
     prt        = time.strftime("%a, %d.%m.%Y", time.localtime(to_epoch(date))) + ", " + text
@@ -166,7 +162,7 @@ def printline( line ):
         prt = re.sub(' countdown,', countdown, prt)
         prt = re.sub(' countdown', countdown, prt)
 
-    if prt != "":
+    if prt:
         print(prt)
 
 
@@ -188,13 +184,12 @@ def main():
     readdat()
     alldates = sorted(alldates, key=to_epoch)
 
-    if rmonth == '':
+    if not rmonth:
         search = '\.%s ' % ryear
-    elif rday == '':
+    elif not rday:
         search = '\.%s\.%s ' % (rmonth, ryear)
     else:
         search = '%s\.%s\.%s ' % (rday, rmonth, ryear)
-
 
     for line in alldates:
         if re.search(search, line):
