@@ -202,4 +202,5 @@ def main():
         elif re.search(", countdown", line):
             printline(line)
 
-main()
+if __name__ == "__main__":
+    main()
