@@ -11,7 +11,6 @@ def options():
         print("\nUsage: %s [[[dd.]mm.]yyyy]\n\n" % sys.argv[0])
         sys.exit(1)
 
-    oyear, omonth, oday = ["", "", ""]
     if len(sys.argv) == 2:
         optionlist = sys.argv[1].split(".")
 
@@ -80,7 +79,7 @@ def readdat():
     for line in f:
         line = line.strip()
 
-        if not re.match("#", line):
+        if not re.match("^#", line):
             line               = re.sub(r'\s{2,}', ' ', line)
             ltime, description = line.split(" ", 1)
 
@@ -123,7 +122,7 @@ def readdat():
                     ltimelist[2] = ryear
 
                 alldates.append("%s.%s.%s %s" % (ltimelist[0], ltimelist[1], ltimelist[2], description))
-    f.close()
+#    f.close()
 
 
 ######################
@@ -146,7 +145,7 @@ def printline(line):
         if age > 1:
             prt += "s"
 
-    if re.search(", countdown", line):
+    if ', countdown' in line:
         duration = int((to_epoch(date) - to_epoch(time.strftime("%d.%m.%Y"))) / day + 0.5)
 
         if duration == 0:
@@ -159,8 +158,8 @@ def printline(line):
             countdown = ""
             prt       = ""
 
-        prt = re.sub(' countdown,', countdown, prt)
-        prt = re.sub(' countdown', countdown, prt)
+        prt = prt.replace(' countdown,', countdown)
+        prt = prt.replace(' countdown', countdown)
 
     if prt:
         print(prt)
@@ -185,16 +184,16 @@ def main():
     alldates = sorted(alldates, key=to_epoch)
 
     if not rmonth:
-        search = '\.%s ' % ryear
+        search = '.%s ' % ryear
     elif not rday:
-        search = '\.%s\.%s ' % (rmonth, ryear)
+        search = '.%s.%s ' % (rmonth, ryear)
     else:
-        search = '%s\.%s\.%s ' % (rday, rmonth, ryear)
+        search = '%s.%s.%s ' % (rday, rmonth, ryear)
 
     for line in alldates:
-        if re.search(search, line):
+        if search in line:
             printline(line)
-        elif re.search(", countdown", line):
+        elif ", countdown" in line:
             printline(line)
 
 if __name__ == "__main__":
