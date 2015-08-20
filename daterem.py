@@ -16,9 +16,12 @@ def options():
 
         if len(optionlist) == 1:
             oyear  = optionlist[0]
+            omonth = ''
+            oday   = ''
         elif len(optionlist) == 2:
             oyear  = optionlist[1]
             omonth = optionlist[0]
+            oday   = ''
         else:
             oyear  = optionlist[2]
             omonth = optionlist[1]
