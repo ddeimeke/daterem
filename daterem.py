@@ -122,10 +122,14 @@ def readdat():
                 ltimelist.append('')
 
                 if ltimelist[2] == '':
+                    ltimelist[2] = str(int(ryear) + 1)
+                    if 'countdown' in description:
+                        alldates.append("%s.%s.%s %s" % (ltimelist[0], ltimelist[1], ltimelist[2], description))
                     ltimelist[2] = ryear
 
                 alldates.append("%s.%s.%s %s" % (ltimelist[0], ltimelist[1], ltimelist[2], description))
-#    f.close()
+
+    f.close()
 
 
 ######################
