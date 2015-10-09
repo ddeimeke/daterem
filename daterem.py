@@ -151,18 +151,27 @@ def printline(line):
     if ', countdown' in line:
         duration = int((to_epoch(date) - to_epoch(time.strftime("%d.%m.%Y"))) / day + 0.5)
 
+        newmatch = re.search(r"countdown-([0-9]+)", line)
+        if newmatch:
+            daysbefore = int(newmatch.group(1))
+            line       = line.replace('countdown-90', 'countdown')
+        else:
+            daysbefore = 365
+
         if duration == 0:
             countdown = " today"
         elif duration == 1:
             countdown = " tomorrow"
-        elif duration > 1:
+        elif duration > 1 and duration <= daysbefore:
             countdown = " in %s days" % duration
         else:
             countdown = ""
             prt       = ""
 
+        prt = prt.replace(' countdown-' + str(daysbefore), countdown)
         prt = prt.replace(' countdown,', countdown)
         prt = prt.replace(' countdown', countdown)
+
 
     if prt:
         print(prt)

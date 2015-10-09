@@ -28,7 +28,9 @@
 24.12. Christmas Eve, countdown
 25.12. Christmas Day
 26.12. Boxing Day
-31.12. New Year's Eve
+# add a "-" and a number of days to countdown to show
+# how many days beforehand you want to see the event
+31.12. New Year's Eve, countdown-90
 # Birthday dates
 # add a "born" or "dead" or "started" or "year" 
 # followed by a 4 digit year
