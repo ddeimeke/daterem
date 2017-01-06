@@ -2,7 +2,7 @@ daterem.pl  - A little Perl script to remind you of daily due dates
 daterem.py  - A little Python script to remind you of daily due dates
 daterem.dat - Example file with common holiday dates
 
-Copyright 2006-2016, Dirk Deimeke
+Copyright 2006-2017, Dirk Deimeke
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
