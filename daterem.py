@@ -3,7 +3,7 @@
 import sys
 import re
 import time
-import getopt
+import argparse
 
 
 def usage():
@@ -11,29 +11,21 @@ def usage():
 
 
 def options():
-    try:
-        opts, args = getopt.getopt(sys.argv[1:], "hf:", ["help", "file="])
-    except getopt.GetoptError as err:
-        # print help information and exit:
-        print(err)  # will print something like "option -a not recognized"
-        usage()
-        sys.exit(1)
+    global filename
 
-    for o, a in opts:
-        if o in ("-h", "--help"):
-            usage()
-            sys.exit()
-        elif o in ("-f", "--file"):
-            filename = a
-        else:
-            assert False, "unhandled option"
+    parser = argparse.ArgumentParser()
 
-    if len(sys.argv) >= 3:
-        usage()
-        sys.exit(1)
+    parser.add_argument("-f", "--file", help="file to read from", default="daterem.dat")
+    parser.add_argument("date", help="search for a specific date", nargs="?", default="today")
+    args = parser.parse_args()
 
-    if len(sys.argv) == 2:
-        optionlist = sys.argv[1].split(".")
+    filename = args.file
+
+    if args.date == "today":
+        oday, omonth, oyear = map(time.strftime, ["%d", "%m", "%Y"])
+
+    else:
+        optionlist = args.date.split(".")
 
         if len(optionlist) == 1:
             oyear = optionlist[0]
@@ -53,9 +45,6 @@ def options():
 
         if len(omonth) == 1:
             omonth = '0' + omonth
-
-    else:
-        oday, omonth, oyear = map(time.strftime, ["%d", "%m", "%Y"])
 
     return (oday, omonth, oyear)
 
@@ -202,7 +191,6 @@ def main():
 
     alldates = []
     day = 60 * 60 * 24
-    filename = "daterem.dat"
 
     rday, rmonth, ryear = options()
     easter = calceaster()
