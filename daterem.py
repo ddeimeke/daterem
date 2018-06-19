@@ -3,11 +3,33 @@
 import sys
 import re
 import time
+import getopt
+
+
+def usage():
+    print("\nUsage: %s [[[dd.]mm.]yyyy]\n\n" % sys.argv[0])
 
 
 def options():
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], "hf:", ["help", "file="])
+    except getopt.GetoptError as err:
+        # print help information and exit:
+        print(err)  # will print something like "option -a not recognized"
+        usage()
+        sys.exit(1)
+
+    for o, a in opts:
+        if o in ("-h", "--help"):
+            usage()
+            sys.exit()
+        elif o in ("-f", "--file"):
+            filename = a
+        else:
+            assert False, "unhandled option"
+
     if len(sys.argv) >= 3:
-        print("\nUsage: %s [[[dd.]mm.]yyyy]\n\n" % sys.argv[0])
+        usage()
         sys.exit(1)
 
     if len(sys.argv) == 2:
@@ -69,7 +91,7 @@ def calceaster():  # Calculate easter date
 
 
 def readdat():
-    f = open('daterem.dat', 'r')
+    f = open(filename, 'r')
     for line in f:
         line = line.strip()
 
@@ -176,9 +198,11 @@ def main():
     global day  # One day in seconds
     global easter  # Easter date - 12:00 - in seconds since the Epoch
     global alldates  # List containing all dates
+    global filename  # The datafile (usually "daterem.dat")
 
     alldates = []
     day = 60 * 60 * 24
+    filename = "daterem.dat"
 
     rday, rmonth, ryear = options()
     easter = calceaster()
