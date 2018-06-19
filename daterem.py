@@ -81,7 +81,12 @@ def calceaster():  # Calculate easter date
 
 
 def readdat():
-    f = open(filename, 'r')
+    try:
+        f = open(filename, 'r')
+    except:
+        print("Error: cannot open file '%s'" % filename)
+        sys.exit(1)
+
     for line in f:
         line = line.strip()
 
