@@ -13,7 +13,8 @@ def usage():
 def options():
     global filename
 
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
     parser.add_argument("-f", "--file", help="file to read from", default="daterem.dat")
     parser.add_argument("date", help="search for a specific date", nargs="?", default="today")
