@@ -40,6 +40,6 @@ $result = `python3 ./daterem.py 04.2018`;
 
 cmp_ok( $?, '==', 0, "Exit code should be zero" );
 like( $result, '/^Sun, 01\.04\.2018, Easter Sunday/m', "Detect easter sunday" );
-like( $result, '/^Mon, 02\.04\.2018, Easter Monday/m', "Detect easter monnday" );
+like( $result, '/^Mon, 02\.04\.2018, Easter Monday/m', "Detect easter monday" );
 
 
