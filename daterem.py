@@ -3,15 +3,36 @@
 import sys
 import re
 import time
+import argparse
+
+
+def usage():
+    print("\nUsage: %s [[[dd.]mm.]yyyy]\n\n" % sys.argv[0])
 
 
 def options():
-    if len(sys.argv) >= 3:
-        print("\nUsage: %s [[[dd.]mm.]yyyy]\n\n" % sys.argv[0])
-        sys.exit(1)
+    global filename
+    global born_list
+    global dead_list
 
-    if len(sys.argv) == 2:
-        optionlist = sys.argv[1].split(".")
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+
+    parser.add_argument("-f", "--file", help="file to read from", default="daterem.dat")
+    parser.add_argument("-b", "--born", help="string list indicating a born year", default="born,year")
+    parser.add_argument("-d", "--dead", help="string list indicating a start year", default="dead,started")
+    parser.add_argument("date", help="search for a specific date", nargs="?", default="today")
+    args = parser.parse_args()
+
+    filename = args.file
+    born_list = args.born.split(",")
+    dead_list = args.dead.split(",")
+
+    if args.date == "today":
+        oday, omonth, oyear = map(time.strftime, ["%d", "%m", "%Y"])
+
+    else:
+        optionlist = args.date.split(".")
 
         if len(optionlist) == 1:
             oyear = optionlist[0]
@@ -31,9 +52,6 @@ def options():
 
         if len(omonth) == 1:
             omonth = '0' + omonth
-
-    else:
-        oday, omonth, oyear = map(time.strftime, ["%d", "%m", "%Y"])
 
     return (oday, omonth, oyear)
 
@@ -69,7 +87,12 @@ def calceaster():  # Calculate easter date
 
 
 def readdat():
-    f = open('daterem.dat', 'r')
+    try:
+        f = open(filename, 'r')
+    except:
+        print("Error: cannot open file '%s'" % filename)
+        sys.exit(1)
+
     for line in f:
         line = line.strip()
 
@@ -126,13 +149,17 @@ def readdat():
 def printline(line):
     date, text = line.split(" ", 1)
     prt = time.strftime("%a, %d.%m.%Y", time.localtime(to_epoch(date))) + ", " + text
-    match = re.match(r".*(born|dead|started|year) (\d{4})", text)
+
+    # Default is born/year for born_list and dead/started for dead_list
+    matching_list = born_list + dead_list
+    matching_strings = str.join('|', matching_list)
+    match = re.match(r".*(" + matching_strings + ") (\d{4})", text)
 
     if match:
 
-        if match.group(1) in ('born', 'year'):
+        if match.group(1) in (born_list):
             prt += ", age "
-        elif match.group(1) in ('dead', 'started'):
+        elif match.group(1) in (dead_list):
             prt += ", ago: "
 
         age = int(ryear) - int(match.group(2))
@@ -176,6 +203,7 @@ def main():
     global day  # One day in seconds
     global easter  # Easter date - 12:00 - in seconds since the Epoch
     global alldates  # List containing all dates
+    global filename  # The datafile (usually "daterem.dat")
 
     alldates = []
     day = 60 * 60 * 24
