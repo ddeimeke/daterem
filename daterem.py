@@ -16,12 +16,13 @@ def options():
     global dead_list
 
     parser = argparse.ArgumentParser(
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+        description="A simple date reminder.")
 
     parser.add_argument("-f", "--file", help="file to read from", default="daterem.dat")
     parser.add_argument("-b", "--born", help="string list indicating a born year", default="born,year")
     parser.add_argument("-d", "--dead", help="string list indicating a start year", default="dead,started")
-    parser.add_argument("date", help="search for a specific date", nargs="?", default="today")
+    parser.add_argument("date", help="search for a specific date [[[dd.]mm.]yyyy]", nargs="?", default="today")
     args = parser.parse_args()
 
     filename = args.file
@@ -153,7 +154,7 @@ def printline(line):
     # Default is born/year for born_list and dead/started for dead_list
     matching_list = born_list + dead_list
     matching_strings = str.join('|', matching_list)
-    match = re.match(r".*(" + matching_strings + ") (\d{4})", text)
+    match = re.match(r".*(" + matching_strings + r") (\d{4})", text)
 
     if match:
 
