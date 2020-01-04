@@ -17,12 +17,25 @@ def options():
 
     parser = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
-        description="A simple date reminder.")
+        description="A simple date reminder.",
+    )
 
     parser.add_argument("-f", "--file", help="file to read from", default="daterem.dat")
-    parser.add_argument("-b", "--born", help="string list indicating a born year", default="born,year")
-    parser.add_argument("-d", "--dead", help="string list indicating a start year", default="dead,started")
-    parser.add_argument("date", help="search for a specific date [[[dd.]mm.]yyyy]", nargs="?", default="today")
+    parser.add_argument(
+        "-b", "--born", help="string list indicating a born year", default="born,year"
+    )
+    parser.add_argument(
+        "-d",
+        "--dead",
+        help="string list indicating a start year",
+        default="dead,started",
+    )
+    parser.add_argument(
+        "date",
+        help="search for a specific date [[[dd.]mm.]yyyy]",
+        nargs="?",
+        default="today",
+    )
     args = parser.parse_args()
 
     filename = args.file
@@ -37,22 +50,22 @@ def options():
 
         if len(optionlist) == 1:
             oyear = optionlist[0]
-            omonth = ''
-            oday = ''
+            omonth = ""
+            oday = ""
         elif len(optionlist) == 2:
             oyear = optionlist[1]
             omonth = optionlist[0]
-            oday = ''
+            oday = ""
         else:
             oyear = optionlist[2]
             omonth = optionlist[1]
             oday = optionlist[0]
 
         if len(oday) == 1:
-            oday = '0' + oday
+            oday = "0" + oday
 
         if len(omonth) == 1:
-            omonth = '0' + omonth
+            omonth = "0" + omonth
 
     return (oday, omonth, oyear)
 
@@ -89,7 +102,7 @@ def calceaster():  # Calculate easter date
 
 def readdat():
     try:
-        f = open(filename, 'r')
+        f = open(filename, "r")
     except:
         print("Error: cannot open file '%s'" % filename)
         sys.exit(1)
@@ -98,7 +111,7 @@ def readdat():
         line = line.strip()
 
         if not re.match("^#", line):
-            line = re.sub(r'\s{2,}', ' ', line)
+            line = re.sub(r"\s{2,}", " ", line)
             ltime, description = line.split(" ", 1)
 
             if re.match("^[-0-9]+$", ltime):  # Datum abhaengig von Ostern
@@ -111,10 +124,10 @@ def readdat():
                 dat2list = dat2.split(".")
 
                 if len(dat1list) == 2:
-                    dat1list.append('')
+                    dat1list.append("")
 
                 if len(dat2list) == 2:
-                    dat2list.append('')
+                    dat2list.append("")
 
                 if not dat2list[2]:
                     dat2list[2] = ryear
@@ -134,15 +147,21 @@ def readdat():
 
             else:  # Ein einzelnes Datum
                 ltimelist = ltime.split(".")
-                ltimelist.append('')
+                ltimelist.append("")
 
-                if ltimelist[2] == '':
+                if ltimelist[2] == "":
                     ltimelist[2] = str(int(ryear) + 1)
-                    if 'countdown' in description:
-                        alldates.append("%s.%s.%s %s" % (ltimelist[0], ltimelist[1], ltimelist[2], description))
+                    if "countdown" in description:
+                        alldates.append(
+                            "%s.%s.%s %s"
+                            % (ltimelist[0], ltimelist[1], ltimelist[2], description)
+                        )
                     ltimelist[2] = ryear
 
-                alldates.append("%s.%s.%s %s" % (ltimelist[0], ltimelist[1], ltimelist[2], description))
+                alldates.append(
+                    "%s.%s.%s %s"
+                    % (ltimelist[0], ltimelist[1], ltimelist[2], description)
+                )
 
     f.close()
 
@@ -153,7 +172,7 @@ def printline(line):
 
     # Default is born/year for born_list and dead/started for dead_list
     matching_list = born_list + dead_list
-    matching_strings = str.join('|', matching_list)
+    matching_strings = str.join("|", matching_list)
     match = re.match(r".*(" + matching_strings + r") (\d{4})", text)
 
     if match:
@@ -169,13 +188,15 @@ def printline(line):
         if age > 1:
             prt += "s"
 
-    if ', countdown' in line:
-        duration = int((to_epoch(date) - to_epoch(time.strftime("%d.%m.%Y"))) / day + 0.5)
+    if ", countdown" in line:
+        duration = int(
+            (to_epoch(date) - to_epoch(time.strftime("%d.%m.%Y"))) / day + 0.5
+        )
 
         newmatch = re.search(r"countdown-([0-9]+)", line)
         if newmatch:
             daysbefore = int(newmatch.group(1))
-            line = line.replace('countdown-90', 'countdown')
+            line = line.replace("countdown-90", "countdown")
         else:
             daysbefore = 365
 
@@ -189,9 +210,9 @@ def printline(line):
             countdown = ""
             prt = ""
 
-        prt = prt.replace(' countdown-' + str(daysbefore), countdown)
-        prt = prt.replace(' countdown,', countdown)
-        prt = prt.replace(' countdown', countdown)
+        prt = prt.replace(" countdown-" + str(daysbefore), countdown)
+        prt = prt.replace(" countdown,", countdown)
+        prt = prt.replace(" countdown", countdown)
 
     if prt:
         print(prt)
@@ -215,11 +236,11 @@ def main():
     alldates = sorted(alldates, key=to_epoch)
 
     if not rmonth:
-        search = '.%s ' % ryear
+        search = ".%s " % ryear
     elif not rday:
-        search = '.%s.%s ' % (rmonth, ryear)
+        search = ".%s.%s " % (rmonth, ryear)
     else:
-        search = '%s.%s.%s ' % (rday, rmonth, ryear)
+        search = "%s.%s.%s " % (rday, rmonth, ryear)
 
     for line in alldates:
         if search in line:
