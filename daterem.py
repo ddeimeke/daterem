@@ -110,7 +110,7 @@ def readdat():
     for line in f:
         line = line.strip()
 
-        if not re.match("^#", line):
+        if line and not re.match("^#", line):
             line = re.sub(r"\s{2,}", " ", line)
             ltime, description = line.split(" ", 1)
 
