@@ -16,3 +16,4 @@ I like to thank the following people for their valuable contributions:
 - Kai Wolf (NewProggie) via GitHub and comments in my Blog
 - Johannes Hubertz via e-mail and Google+
 - Florian Bruhin via e-mail
+- Malte Gerken (malteger) via GitHub
