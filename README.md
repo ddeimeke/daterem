@@ -7,7 +7,20 @@ The perl script "daterem.pl" is the original version. It currently lacks support
 
 Call daterem.py without any parameters to see the reminders for today, call it with a year to see all reminders for the year, call it with month and year - separated by a dot and you get all the reminders for the specific month and - you might have expected this - call it with day, month and year to see the reminders for the specific date.
 
-Usage: daterem.pl [[[dd.]mm.]yyyy]
+```
+usage: daterem.py [-h] [-f FILE] [-b BORN] [-d DEAD] [date]
+
+A simple date reminder.
+
+positional arguments:
+  date                  search for a specific date [[[dd.]mm.]yyyy] (default: today)
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -f FILE, --file FILE  file to read from (default: daterem.dat)
+  -b BORN, --born BORN  string list indicating a born year (default: born,year)
+  -d DEAD, --dead DEAD  string list indicating a start year (default: dead,started)
+```
 
 In case of any questions, mail me dirk@deimeke.net
 
