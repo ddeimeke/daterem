@@ -6,10 +6,6 @@ import time
 import argparse
 
 
-def usage():
-    print("\nUsage: %s [[[dd.]mm.]yyyy]\n\n" % sys.argv[0])
-
-
 def options():
     global filename
     global born_list
