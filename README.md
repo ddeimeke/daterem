@@ -1,3 +1,6 @@
+**This is only the archived copy of my little tool!**
+
+**The project is migrated to Codeberg, you will find its new home here: [codeberg.org/ddeimeke/daterem](https://codeberg.org/ddeimeke/daterem)**
 
 daterem is a little script to help you with daily due dates.
 
